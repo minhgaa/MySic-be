@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "name": "prisma-client-830c1323cfd1c7c8733770b18e34f359f132bd82c2778ce669d78e53ad5af789",
+=======
+  "name": "prisma-client-9f0ad6703c116c9f4b0790fe719636a0ff1efa87a84c1c705b501c740f048fce",
+>>>>>>> otp
   "main": "index.js",
   "types": "index.d.ts",
   "browser": "index-browser.js",
@@ -97,6 +101,7 @@
       "import": "./runtime/binary.mjs",
       "default": "./runtime/binary.mjs"
     },
+<<<<<<< HEAD
     "./runtime/wasm-engine-edge": {
       "types": "./runtime/wasm-engine-edge.d.ts",
       "require": "./runtime/wasm-engine-edge.js",
@@ -108,6 +113,13 @@
       "require": "./runtime/wasm-compiler-edge.js",
       "import": "./runtime/wasm-compiler-edge.mjs",
       "default": "./runtime/wasm-compiler-edge.mjs"
+=======
+    "./runtime/wasm": {
+      "types": "./runtime/wasm.d.ts",
+      "require": "./runtime/wasm.js",
+      "import": "./runtime/wasm.mjs",
+      "default": "./runtime/wasm.mjs"
+>>>>>>> otp
     },
     "./runtime/edge": {
       "types": "./runtime/edge.d.ts",
@@ -141,6 +153,10 @@
     },
     "./*": "./*"
   },
+<<<<<<< HEAD
   "version": "6.9.0",
+=======
+  "version": "6.8.2",
+>>>>>>> otp
   "sideEffects": false
 }

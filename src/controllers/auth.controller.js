@@ -27,7 +27,6 @@ const confirmOtp = async(req, res) => {
     }
 }
 
-
 const login = async (req, res) => {
     try {
         const token = await authService.login(req.body);
@@ -85,4 +84,4 @@ const googleCallback = async (req, res) => {
     res.redirect('http://localhost:5173');
 }
 
-module.exports = { confirmOtp ,register, login, googleCallback, logout, getCurrentUser };
+module.exports = { register, login, googleCallback, logout, getCurrentUser, confirmOtp };

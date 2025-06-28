@@ -15,8 +15,8 @@ const validate = (req, res, next) => {
 };
 
 router.post('/register', validator.registerValidator, validate, authController.register)
-      .get('/me', verifyToken, authController.getCurrentUser)
       .post('/confirm-otp', authController.confirmOtp)
+      .get('/me', verifyToken, authController.getCurrentUser)
       .post('/login', validator.loginValidator, validate, authController.login)
       .post('/logout', authController.logout)
       .get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }))

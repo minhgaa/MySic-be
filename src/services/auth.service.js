@@ -1,17 +1,23 @@
 const bcrypt = require('bcrypt');
 const { generateToken } = require('../utils/jwt.util');
 const { PrismaClient } = require('../generated/prisma/client');
+const { sendOtpMail } = require('./mail.service');
 const prisma = new PrismaClient();
 
 const register = async(data) => {
     const hashedPassword = await bcrypt.hash(data.password, 10);
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
     const user = await prisma.user.create({
         data: {
             name: data.name,
             email: data.email,
             password: hashedPassword,
+            otp,
+            otpExpiresAt
         },
     });
+    await sendOtpMail(data.email, otp);
     return user;
 }
 
@@ -68,4 +74,4 @@ const findOrCreateUser = async (profile) => {
   return user;
 }
 
-module.exports = { verifyOtp, register, login, findOrCreateUser };
+module.exports = { register, login, findOrCreateUser, verifyOtp };

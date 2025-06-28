@@ -7,7 +7,11 @@
 generator client {
   provider      = "prisma-client-js"
   output        = "../src/generated/prisma"
+<<<<<<< HEAD
   binaryTargets = ["native", "debian-openssl-3.0.x", "linux-musl-arm64-openssl-3.0.x"]
+=======
+  binaryTargets = ["native", "debian-openssl-3.0.x", "linux-musl-openssl-3.0.x"]
+>>>>>>> otp
 }
 
 datasource db {
@@ -22,6 +26,7 @@ enum SongStatus {
 }
 
 model User {
+<<<<<<< HEAD
   id        String     @id @default(uuid())
   name      String
   email     String     @unique
@@ -35,6 +40,23 @@ model User {
   playlists Playlist[]
   likes     Like[]
   reports   Report[]
+=======
+  id           String     @id @default(uuid())
+  name         String
+  email        String     @unique
+  password     String
+  role         String     @default("user")
+  avatarUrl    String?
+  otp          String?
+  otpExpiresAt DateTime?
+  googleId     String?    @unique
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  songs        Song[]
+  playlists    Playlist[]
+  likes        Like[]
+  reports      Report[]
+>>>>>>> otp
 }
 
 model Song {
@@ -58,7 +80,11 @@ model Song {
 
 model Genre {
   id    String @id @default(uuid())
+<<<<<<< HEAD
   name  String @unique
+=======
+  name  String
+>>>>>>> otp
   songs Song[]
 }
 

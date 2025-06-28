@@ -40,7 +40,7 @@ const getSongLyrics = async (songId) => {
     });
 
     if (!song) {
-        throw new Error('Song not found3');
+        throw new Error('Song not found');
     }
     return song;
 }
@@ -200,7 +200,7 @@ const getPendingSongs = async () => {
 const updateSongStatus = async (songId, status) => {
   const song = await prisma.song.findUnique({ where: { id: songId}});
   if (!song) {
-    throw new Error('Song not found4');
+    throw new Error('Song not found');
   }
   return await prisma.song.update({
     where: { id: songId },
@@ -211,7 +211,7 @@ const updateSongStatus = async (songId, status) => {
 const updateSong = async (id, data) => {
   const song = await prisma.song.findUnique({ where: { id }});
   if (!song) {
-    throw new Error('Song not found5');
+    throw new Error('Song not found');
   }
   return await prisma.song.update({
     where: { id },
@@ -222,7 +222,7 @@ const updateSong = async (id, data) => {
 const deleteSong = async (id) => {
   const song = await prisma.song.findUnique({ where: { id }});
   if (!song) {
-    throw new Error('Song not found6');
+    throw new Error('Song not found');
   }
   return await prisma.song.delete({
     where: { id }
