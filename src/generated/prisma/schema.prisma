@@ -1,0 +1,101 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../src/generated/prisma"
+  binaryTargets = ["native", "debian-openssl-3.0.x", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum SongStatus {
+  pending
+  approved
+  rejected
+}
+
+model User {
+  id           String     @id @default(uuid())
+  name         String
+  email        String     @unique
+  password     String
+  role         String     @default("user")
+  avatarUrl    String?
+  otp          String?
+  otpExpiresAt DateTime?
+  googleId     String?    @unique
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  songs        Song[]
+  playlists    Playlist[]
+  likes        Like[]
+  reports      Report[]
+}
+
+model Song {
+  id        String         @id @default(uuid())
+  title     String
+  artist    String
+  fileUrl   String
+  songImage String?
+  lyrics    String?
+  genre     Genre          @relation(fields: [genreId], references: [id])
+  genreId   String
+  user      User           @relation(fields: [userId], references: [id])
+  userId    String
+  status    SongStatus     @default(pending)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  likes     Like[]
+  reports   Report[]
+  playlists PlaylistSong[]
+}
+
+model Genre {
+  id    String @id @default(uuid())
+  name  String
+  songs Song[]
+}
+
+model Playlist {
+  id        String         @id @default(uuid())
+  name      String
+  user      User           @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  songs     PlaylistSong[]
+}
+
+model PlaylistSong {
+  id         String   @id @default(uuid())
+  playlist   Playlist @relation(fields: [playlistId], references: [id])
+  playlistId String
+  song       Song     @relation(fields: [songId], references: [id])
+  songId     String
+}
+
+model Like {
+  id     String @id @default(uuid())
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  song   Song   @relation(fields: [songId], references: [id])
+  songId String
+}
+
+model Report {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  song      Song     @relation(fields: [songId], references: [id])
+  songId    String
+  reason    String
+  createdAt DateTime @default(now())
+}
