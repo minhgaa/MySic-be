@@ -21,6 +21,10 @@ const register = async(data) => {
     return user;
 }
 
+const resendOtp = async(email) => {
+  await sendOtpMail(email, otp);
+}
+
 const verifyOtp = async (email, otp) => {
   const user = await prisma.user.findUnique({ where: { email } });
   if (!user) throw new Error('Email does not exist');
@@ -74,4 +78,4 @@ const findOrCreateUser = async (profile) => {
   return user;
 }
 
-module.exports = { register, login, findOrCreateUser, verifyOtp };
+module.exports = { resendOtp, register, login, findOrCreateUser, verifyOtp };

@@ -15,6 +15,19 @@ const register = async (req, res) => {
     }
 };
 
+const resendOtp = async(req, res) => {
+    try {
+        await authService.resendOtp(req.body);
+        res.status(201).json({
+            message: 'Resend email successfully',
+        })
+    } catch (error) {
+        res.status(400).json({
+            error: error.message,
+        });
+    }
+};
+
 const confirmOtp = async(req, res) => {
     try {
         const { email, otp } = req.body;
@@ -84,4 +97,4 @@ const googleCallback = async (req, res) => {
     res.redirect('http://localhost:5173');
 }
 
-module.exports = { register, login, googleCallback, logout, getCurrentUser, confirmOtp };
+module.exports = { resendOtp, register, login, googleCallback, logout, getCurrentUser, confirmOtp };

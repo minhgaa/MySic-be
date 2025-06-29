@@ -16,6 +16,7 @@ const validate = (req, res, next) => {
 
 router.post('/register', validator.registerValidator, validate, authController.register)
       .post('/confirm-otp', authController.confirmOtp)
+      .post('/resend-otp', authController.resendOtp)
       .get('/me', verifyToken, authController.getCurrentUser)
       .post('/login', validator.loginValidator, validate, authController.login)
       .post('/logout', authController.logout)
