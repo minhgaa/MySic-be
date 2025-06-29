@@ -9720,12 +9720,12 @@ export namespace Prisma {
 
   export type GenreWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    name?: string
     AND?: GenreWhereInput | GenreWhereInput[]
     OR?: GenreWhereInput[]
     NOT?: GenreWhereInput | GenreWhereInput[]
-    name?: StringFilter<"Genre"> | string
     songs?: SongListRelationFilter
-  }, "id">
+  }, "id" | "name">
 
   export type GenreOrderByWithAggregationInput = {
     id?: SortOrder

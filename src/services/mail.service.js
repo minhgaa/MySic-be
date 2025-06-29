@@ -12,7 +12,7 @@ const sendOtpMail = async(to, otp) => {
     await transporter.sendMail({
         from: process.env.EMAIL_USER,
         to,
-        subject: 'Verify account - Music player app',
+        subject: 'Verify account - MySic',
         html: `<p>Your OTP is ${otp}</p>`
     })
 };
