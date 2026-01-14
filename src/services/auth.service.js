@@ -21,9 +21,18 @@ const register = async(data) => {
     return user;
 }
 
-const resendOtp = async(email) => {
-  await sendOtpMail(email, otp);
-}
+const resendOtp = async (email) => {
+  const user = await prisma.user.findUnique({ where: { email } });
+  if (!user) throw new Error('User not found');
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  const otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
+
+  await prisma.user.update({
+    where: { email },
+    data: { otp, otpExpiresAt }
+  });
+  await sendOtpMail(email, otp); 
+};
 
 const verifyOtp = async (email, otp) => {
   const user = await prisma.user.findUnique({ where: { email } });
