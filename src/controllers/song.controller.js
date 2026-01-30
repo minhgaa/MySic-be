@@ -97,20 +97,29 @@ const downloadSong = async (req, res) => {
 
 const uploadSong = async (req, res) => {
     try {
-        const { title, genreId, lyrics, fileUrl, songImage, artist } = req.body;
-        if (!title || !artist || !genreId || !fileUrl) {
-            return res.status(400).json({ error: "Not enough song information" });
-        }
-        const song = await songService.uploadSong({ title, artist, genreId, lyrics, fileUrl, songImage, userId: req.user.id });
-        if (!song) {
-            return res.status(500).json({ error: "Failed to upload song" });
+        const { title, artist, genreId, lyrics, songImage } = req.body;
+        const userId = req.user.id;
+
+        if (!req.files || !req.files.audioFile) {
+            return res.status(400).json({ error: 'Audio file is required' });
         }
 
-        res.status(201).json({ message: "Song uploaded, wait for approval", song });
+        const songData = {
+            title,
+            artist,
+            genreId,
+            userId,
+            lyrics,
+            songImage
+        };
+
+        const song = await songService.uploadSong(songData, req.files);
+        res.status(201).json(song);
     } catch (error) {
+        console.error('Error uploading song:', error);
         res.status(500).json({ error: error.message });
     }
-}
+};
 
 const likeSong = async (req, res) => {
     try {
@@ -208,4 +217,51 @@ const deleteSong = async (req, res) => {
     }
 }
 
-module.exports = { getLikeCount, getSongById, getSongsByUser, getAllSongs, getSongsByGenre, getSongsByStatus, getSongLyrics, downloadSong, uploadSong, likeSong, reportSong, getTopSongs, getRecommendedSongs, getPendingSongs, approveSong, rejectSong, updateSong, deleteSong };
+const syncSongStatus = async (req, res) => {
+    try {
+        const { s3Key, streamUrl } = req.body;
+        
+        if (!s3Key || !streamUrl) {
+            return res.status(400).json({ 
+                error: "s3Key and streamUrl are required" 
+            });
+        }
+
+        const updatedSong = await songService.syncSongStatus(s3Key, streamUrl);
+        
+        if (!updatedSong) {
+            return res.status(404).json({ 
+                error: "Song not found with the given S3 key" 
+            });
+        }
+
+        res.status(200).json({ 
+            message: "Song status synced successfully", 
+            song: updatedSong 
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+module.exports = { 
+    getLikeCount, 
+    getSongById, 
+    getSongsByUser, 
+    getAllSongs, 
+    getSongsByGenre, 
+    getSongsByStatus, 
+    getSongLyrics, 
+    downloadSong, 
+    uploadSong, 
+    likeSong, 
+    reportSong, 
+    getTopSongs, 
+    getRecommendedSongs, 
+    getPendingSongs, 
+    approveSong, 
+    rejectSong, 
+    updateSong, 
+    deleteSong,
+    syncSongStatus 
+};

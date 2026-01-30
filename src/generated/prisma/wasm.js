@@ -127,11 +127,11 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password',
   role: 'role',
   avatarUrl: 'avatarUrl',
-  otp: 'otp',
-  otpExpiresAt: 'otpExpiresAt',
-  googleId: 'googleId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  googleId: 'googleId',
+  otp: 'otp',
+  otpExpiresAt: 'otpExpiresAt'
 };
 
 exports.Prisma.SongScalarFieldEnum = {

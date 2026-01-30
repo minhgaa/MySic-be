@@ -2,7 +2,6 @@ const express = require("express");
 const dotenv = require("dotenv");
 const authRoutes = require("./routes/auth.route");
 const cookieParser = require("cookie-parser");
-const passport = require('./config/passport');
 const songRoutes = require("./routes/song.route");
 const searchRoutes = require("./routes/search.route");
 const playlistRoutes = require("./routes/playlist.route");
@@ -13,6 +12,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 
 dotenv.config();
+const passport = require('./config/passport');
 const app = express();
 
 app.use(morgan('dev'));
